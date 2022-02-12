@@ -20,7 +20,7 @@ function DeletePersonEntry($id) {
 }
 
 
-function InsertInfo($firstname) {
+function InsertInfo($firstname, $lastname, $phonenumber) {
 
   $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   // Check connection
@@ -28,7 +28,7 @@ function InsertInfo($firstname) {
     die("Connection failed: " . mysqli_connect_error());
   }
 
-  $insert = "INSERT INTO people SET firstname = '$firstname' ";
+  $insert ="INSERT INTO people (firstname, lastname, phonenumber) VALUES('$firstname', '$lastname', '$phonenumber')";
 
   $result = $conn->query($insert);
 
@@ -49,7 +49,7 @@ function ShowPeople(){
   if (mysqli_num_rows($result) > 0) {
     // output data of each row
     while($row = mysqli_fetch_assoc($result)) {
-      $delurl = "[<a href='https://codd.cs.gsu.edu/~dbaldwin14/week5functions.php?cmd=delete&id={$row['id']}'>delete</a>]";
+      $delurl = "[<a href='https://codd.cs.gsu.edu/~dbaldwin14/week5.php?cmd=delete&id={$row['id']}'>delete</a>]";
       echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. " - Phone Number: " . $row["phonenumber"]. " $delurl<br>";
     }
   } else {
@@ -62,13 +62,20 @@ function ShowPeople(){
 ?>
 
 <form method="get">
-  People Info: <input type="text" name="info"><br>
+
+  First Name: <input type="text" name="fn"><br>
+
+  Last Name: <input type="text" name="ln"><br>
+
+  Phone Number: <input type="text" name="num"><br>
+
   <input type="submit" value="Submit">
+
 </form>
 
 <?php
-if($_GET['info'] != ''){
-  InsertInfo($_GET['info']);
+if($_GET['fn'] != '' && $_GET['ln'] != '' && $_GET['num'] != ''){
+  InsertInfo($_GET['fn'], $_GET['ln'], $_GET['num']);
 }
 
 if($_GET['cmd'] == 'delete') {
