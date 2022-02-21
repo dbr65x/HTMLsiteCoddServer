@@ -36,7 +36,8 @@ function ShowPeople(){
   if (mysqli_num_rows($result) > 0) {
     // output data of each row
     while($row = mysqli_fetch_assoc($result)) {
-      $delurl = "[<a href='https://codd.cs.gsu.edu/~dbaldwin14/week7.php?cmd=delete&id={$row['id']}'>delete</a>]";
+      $id = $row["id"];
+      $delurl = "[<a href='' onclick=return(DeletePersonEntry('$id'))>delete</a>]";
       echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. " - Phone Number: " . $row["phonenumber"]. " $delurl<br>";
     }
   } else {
